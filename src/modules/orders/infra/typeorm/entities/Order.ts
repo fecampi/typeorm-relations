@@ -16,16 +16,17 @@ class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  // eager...ele coloca os valores da outra tabela na consulta
   // varias orders tem um customer- Many Orders ToOne Customer
-  @ManyToOne(() => Customer)
+  @ManyToOne(() => Customer, { eager: true })
   @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
   // Varias orders tem vários customers - Many Orders toMany Customer
   // (*@OneToMany - ManyToOne)
-  @OneToMany(() => OrdersProducts, order_products => order_products.order, {
-    // Salva automaticamente
+  @OneToMany(() => OrdersProducts, orders_products => orders_products.order, {
     cascade: true,
+    eager: true,
   })
   order_products: OrdersProducts[];
 
